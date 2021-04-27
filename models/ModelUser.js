@@ -14,7 +14,7 @@ const ModelUser = new Schema({
   },
   avatar: {
     type: String,
-    default: ''
+    default: 'https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2796144188,439704386&fm=26&gp=0.jpg'
   },
   uid: {
     type: String,

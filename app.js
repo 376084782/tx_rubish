@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-import ModelUser from './models/ModelUser'
 
 import indexRouter from './routes/index'
 import AdminRouter from './routes/admin'
+import ModelGroup from './models/ModelGroup';
+
+
 
 var app = express();
 app.all('*', function (req, res, next) {
@@ -53,5 +55,39 @@ app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
 });
+
+
+async function initGroupList() {
+	let listGroup = await ModelGroup.find({})
+	if (listGroup.length == 0) {
+		await ModelGroup.insertMany([{
+				groupId: "南山",
+			},
+			{
+				groupId: "新虹桥"
+			},
+			{
+				groupId: "漕泾河"
+			},
+			{
+				groupId: "望京"
+			},
+			{
+				groupId: "陆家嘴",
+			},
+			{
+				groupId: "西二旗",
+			},
+			{
+				groupId: "西溪",
+			},
+			{
+				groupId: "知春路",
+			}
+		])
+	}
+}
+initGroupList()
+
 
 module.exports = app;

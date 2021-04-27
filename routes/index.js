@@ -6,7 +6,7 @@ var router = express.Router();
 
 var request = require('request');
 
-/* GET home page. */
+
 // 登录换取游戏数据
 router.post('/login', async (req, res, next) => {
   let data = req.body;
@@ -18,9 +18,21 @@ router.post('/login', async (req, res, next) => {
       data
     )
   }
+
+  let dataGroup = await ModelGroup.findOne({
+    groupId: dataTarget.groupId
+  });
   res.json({
     code: 0,
-    data: dataTarget
+    data: {
+      groupScore: dataGroup ? dataGroup.score : 0,
+      nickname: dataTarget.nickname,
+      score: dataTarget.score,
+      avatar: dataTarget.avatar,
+      uid: dataTarget.uid,
+      groupId: dataTarget.groupId,
+      friends: dataTarget.friends,
+    }
   });
 });
 // 获取战区总分
@@ -42,6 +54,12 @@ router.post('/group/total', async (req, res, next) => {
 // 提交分数
 router.post('/game/end', async (req, res, next) => {
   let data = req.body;
+  if (!data.groupId) {
+    res.json({
+      code: -1,
+      message: '请选择战队'
+    })
+  }
   let dataUser = await ModelUser.findOne({
     uid: data.uid
   });
@@ -65,7 +83,7 @@ router.post('/game/end', async (req, res, next) => {
 
   res.json({
     code: 0,
-    data: dataTarget
+    data: dataUser
   });
 });
 // 排行榜
@@ -77,21 +95,24 @@ router.post('/rank', async (req, res, next) => {
     uid: data.uid
   })
   let list = []
-  if (type == 1) {
+  if (type == 2) {
     list = await ModelUser.find({
-      "uid": {
-        $in: dataSelf.friends
-      }
+      $or: [{
+        "uid": {
+          $in: dataSelf.friends
+        }
+      }, {
+        'uid': dataSelf.uid
+      }]
+
     }).sort({
-      score: 1
+      score: -1
     }).limit(20)
 
-  } else if (type == 2) {
+  } else if (type == 1) {
     if (dataSelf.groupId) {
-      list = await ModelUser.find({
-        "groupId": dataSelf.groupId
-      }).sort({
-        score: 1
+      list = await ModelGroup.find({}).sort({
+        score: -1
       }).limit(20)
     } else {
       list = []
