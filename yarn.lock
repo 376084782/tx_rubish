@@ -1865,6 +1865,11 @@ cssfilter@0.0.10:
   resolved "https://registry.npm.taobao.org/cssfilter/download/cssfilter-0.0.10.tgz#c6d2672632a2e5c83e013e6864a42ce8defd20ae"
   integrity sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=
 
+curlrequest@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.nlark.com/curlrequest/download/curlrequest-1.0.1.tgz#cd3d8e04e81d7996b0a1cd9716cb09d50b41d50f"
+  integrity sha1-zT2OBOgdeZawoc2XFssJ1QtB1Q8=
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.npm.taobao.org/dashdash/download/dashdash-1.14.1.tgz?cache=0&sync_timestamp=1601073333186&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdashdash%2Fdownload%2Fdashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"

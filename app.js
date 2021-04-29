@@ -65,10 +65,10 @@ async function initGroupList() {
 				groupId: "南山",
 			},
 			{
-				groupId: "新虹桥"
+				groupId: "虹桥"
 			},
 			{
-				groupId: "漕泾河"
+				groupId: "漕河泾"
 			},
 			{
 				groupId: "望京"

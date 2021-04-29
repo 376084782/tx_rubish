@@ -6,11 +6,24 @@ var router = express.Router();
 
 var request = require('request');
 
+// var curl = require('curlrequest');
+
+// 下载图片转化成base64
+// router.get('/pic', async (req, res, next) => {
+//   let data = req.query;
+//   let url = data.url;
+
+//   request.head(url, function (err, res, body) {
+//     request(url).pipe(fs.createWriteStream(dir + "/" + filename));
+//   });
+
+// });
 
 // 登录换取游戏数据
 router.post('/login', async (req, res, next) => {
   let data = req.body;
   let uid = data.uid;
+
   if (!uid) {
     // 游客，生成新账号
     let userListLen = await ModelUser.find().count();
