@@ -10,22 +10,28 @@ var request = require('request');
 // 登录换取游戏数据
 router.post('/login', async (req, res, next) => {
   let data = req.body;
+  let uid = data.uid;
+  if (!uid) {
+    // 游客，生成新账号
+    let userListLen = await ModelUser.find().count();
+    uid = userListLen + 1;
+    data.uid = uid;
+    data.isVisitor = true;
+  }
   let dataTarget = await ModelUser.findOne({
-    uid: data.uid
+    uid: uid
   })
   if (!dataTarget) {
     dataTarget = await ModelUser.create(
       data
     )
   }
-
-  let dataGroup = await ModelGroup.findOne({
-    groupId: dataTarget.groupId
-  });
   res.json({
     code: 0,
     data: {
-      groupScore: dataGroup ? dataGroup.score : 0,
+      groupLength: 0,
+      groupRank: 1,
+      isVisitor: dataTarget.isVisitor,
       nickname: dataTarget.nickname,
       score: dataTarget.score,
       avatar: dataTarget.avatar,
@@ -63,10 +69,12 @@ router.post('/game/end', async (req, res, next) => {
   let dataUser = await ModelUser.findOne({
     uid: data.uid
   });
-  dataUser.score += data.score;
-  await dataUser.updateOne({
-    score: dataUser.score
-  });
+  if (data.score > dataUser.score) {
+    dataUser.score = data.score;
+    await dataUser.updateOne({
+      score: dataUser.score
+    });
+  }
 
   let dataGroup = await ModelGroup.findOne({
     groupId: data.groupId

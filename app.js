@@ -83,6 +83,9 @@ async function initGroupList() {
 			},
 			{
 				groupId: "知春路",
+			},
+			{
+				groupId: "其他",
 			}
 		])
 	}

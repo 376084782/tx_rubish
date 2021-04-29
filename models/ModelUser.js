@@ -27,6 +27,10 @@ const ModelUser = new Schema({
   friends: {
     type: Array,
     default: []
+  },
+  isVisitor: {
+    type: Boolean,
+    default: false
   }
 })
 
