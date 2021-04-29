@@ -10,6 +10,7 @@ import ModelGroup from './models/ModelGroup';
 
 
 
+
 var app = express();
 app.all('*', function (req, res, next) {
 	// 设置请求头为允许跨域
