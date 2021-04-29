@@ -60,12 +60,6 @@ router.post('/group/total', async (req, res, next) => {
 // 提交分数
 router.post('/game/end', async (req, res, next) => {
   let data = req.body;
-  if (!data.groupId) {
-    res.json({
-      code: -1,
-      message: '请选择战队'
-    })
-  }
   let dataUser = await ModelUser.findOne({
     uid: data.uid
   });
@@ -76,18 +70,20 @@ router.post('/game/end', async (req, res, next) => {
     });
   }
 
-  let dataGroup = await ModelGroup.findOne({
-    groupId: data.groupId
-  });
-  if (!dataGroup) {
-    dataGroup = await ModelGroup.create({
+  if (data.groupId) {
+    let dataGroup = await ModelGroup.findOne({
       groupId: data.groupId
-    })
+    });
+    if (!dataGroup) {
+      dataGroup = await ModelGroup.create({
+        groupId: data.groupId
+      })
+    }
+    dataGroup.score += data.score;
+    await dataGroup.updateOne({
+      score: dataGroup.score
+    });
   }
-  dataGroup.score += data.score;
-  await dataGroup.updateOne({
-    score: dataGroup.score
-  });
 
   res.json({
     code: 0,
